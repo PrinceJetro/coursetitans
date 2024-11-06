@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<!-- templates/courses/list_courses.html -->
+<h1>
+    {{courses.name}}
+</h1>
+
+
+
+<!-- Header Start -->
+<div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-3 text-white animated slideInDown" style="font-size: 50px">{{department.name}}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+<div class="d-flex">
+  <div class="overflow-auto" style="height: 400px; width:100%;">
+    <h1 class="display-3 text-dark animated slideInDown" style="font-size: 50px">Courses</h1>
+
+    <div class="card m-2 m-auto" style="max-width: 540px; margin: auto">
+    {% for course in courses %}
+    
+
+        <div class="row g-0">
+            <div class="col">
+                <img src={{course.image.url}} class="img-fluid rounded-start" style="height: 75%; " />
+            </div>
+            <div class="col">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'course_detail' course.name %}">{{ course.name }}</a></h5>
+                    <p class="card-text">
+                        This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                    </p>
+                    <p class="card-text">
+                    </p>
+                </div>
+            </div>
+        </div>
+    
+    {% endfor %}
+</div>
+
+  </div>
+</div>
+
+{% endblock %}

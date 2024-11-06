@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
   
 class Department(models.Model):
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to="uploaded_image", null=True)
     
 
     def __str__(self):
@@ -37,7 +36,6 @@ class Student(models.Model):
 
 class Topic(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
     content = models.TextField(blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='topics')
 

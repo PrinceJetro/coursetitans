@@ -133,17 +133,36 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+
 SUPABASE_URL = 'https://fmlguqqzwmsqgobmvzll.supabase.co'
 SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtbGd1cXF6d21zcWdvYm12emxsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY4MTgxMzEzMywiZXhwIjoxOTk3Mzg5MTMzfQ.SosGz7OXEzSeTkXCvFduDY59WxQ4xatl3ogDey7TDDM'
 SUPABASE_BUCKET = 'Jetro'
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+# Base URL for accessing Supabase assets
+SUPABASE_BUCKET_URL = 'https://fmlguqqzwmsqgobmvzll.supabase.co/storage/v1/object/public/Jetro/'
 
+
+# Static files settings
+STATIC_URL = "https://fmlguqqzwmsqgobmvzll.supabase.co/storage/v1/object/public/Jetro/static/"  # Assumes assets are stored in a directory named 'assets' in the bucket
+
+
+
+# Media files settings
+MEDIA_URL = f"{SUPABASE_BUCKET_URL}/media/"  # Assumes media files are stored in a 'media' folder in the bucket
+
+# Remove STATICFILES_STORAGE backend since we're directly linking to Supabase
+
+# Ensure these are either set correctly or removed if using a direct URL
+
+
+# Primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+# Authentication redirects
+LOGIN_REDIRECT_URL = 'profile'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = '/login/'

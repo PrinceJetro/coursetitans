@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'webapp.apps.WebappConfig',
 ]
 
-AUTH_USER_MODEL = 'webapp.User'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -91,12 +90,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
      'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'ENGINE': 'django.db.backends.postgresql',
          'NAME': 'postgres',
-         'HOST' : "aws-0-ca-central-1.pooler.supabase.com",
-         "PORT" : "5432",
-         'USER' : "postgres.gwdkjjupgtergkyklyel",
-         'PASSWORD' : "yabatech_anonymous",
+         'HOST' : "aws-0-eu-central-1.pooler.supabase.com",
+         "PORT" : "6543",
+         'USER' : "postgres.pjwjmibolcinplgzkfeo",
+         'PASSWORD' : "coursetitans2024@#",
      }
 }
 

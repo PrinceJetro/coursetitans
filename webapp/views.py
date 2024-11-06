@@ -9,7 +9,7 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
-from main.storage import SupabaseStorage
+from webapp.storage import SupabaseStorage
 
 
 

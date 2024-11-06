@@ -52,7 +52,7 @@ def register_student(request):
                 print(f"Error uploading image: {e}")
 
         # Basic validation
-        if username and password and school and first_name and last_name and department_name and phone and email:
+        if username and password and school and first_name and last_name and department_name and email:
             # Fetch the Department instance
             department = get_object_or_404(Department, name=department_name)
 

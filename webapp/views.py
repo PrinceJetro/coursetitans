@@ -28,7 +28,6 @@ def register_student(request):
         first_name = request.POST.get('first_name').lower()
         last_name = request.POST.get('last_name').lower()
         department_name = request.POST.get('department')
-        phone = request.POST.get('phone')
         email = request.POST.get('email').lower()
         username = request.POST.get('username').lower()
         password = request.POST.get('password')
@@ -65,7 +64,6 @@ def register_student(request):
             student = Student(
                 user=user,
                 department=department,
-                phone=phone,
                 school=school,
                 image=image_url  # Store the image URL instead of the file
             )

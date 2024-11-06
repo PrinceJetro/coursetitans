@@ -15,4 +15,6 @@ tzdata==2024.1
 asgiref==3.8.1
 anyio==4.3.0
 httpx
+django-ckeditor
+
 

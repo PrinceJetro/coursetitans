@@ -1,6 +1,7 @@
 # models.py
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
 
 
@@ -15,8 +16,6 @@ class Department(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=255)
     departments = models.ManyToManyField(Department, related_name='courses')  # Updated to ManyToManyField
-    image = models.ImageField(upload_to="uploaded_image", null=True)
-
 
     def __str__(self):
         return self.name
@@ -36,7 +35,7 @@ class Student(models.Model):
 
 class Topic(models.Model):
     name = models.CharField(max_length=255)
-    content = models.TextField(blank=True)
+    content = RichTextField(blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='topics')
 
     def __str__(self):
@@ -45,7 +44,7 @@ class Topic(models.Model):
  
 class PastQuestions(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='past_questions')
-    content = models.TextField(blank=True)
+    content = RichTextField(blank=True)
     year = models.CharField(max_length=4, help_text="Year of the examination")  # To track different years of questions
     uploaded_at = models.DateTimeField(auto_now_add=True)  # To keep track of when the question was added
 
@@ -54,14 +53,14 @@ class PastQuestions(models.Model):
 
 class KeyPoints(models.Model):
     past_question = models.ForeignKey(PastQuestions, on_delete=models.CASCADE, related_name='key_points')
-    content = models.TextField(help_text="Key points or brief answers related to past questions", blank=True)
+    content = RichTextField(help_text="Key points or brief answers related to past questions", blank=True)
     
     def __str__(self):
         return f'Key Points for {self.past_question.course.name} ({self.past_question.year})'
 
 class CBTQuestion(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='cbt_questions')
-    question_text = models.TextField(help_text="Question for the CBT")
+    question_text = RichTextField(help_text="Question for the CBT")
     option_a = models.CharField(max_length=200)
     option_b = models.CharField(max_length=200)
     option_c = models.CharField(max_length=200)
@@ -73,7 +72,7 @@ class CBTQuestion(models.Model):
 
 class PracticeExplanations(models.Model):
     cbt_question = models.ForeignKey(CBTQuestion, on_delete=models.CASCADE, related_name='explanations')
-    explanation = models.TextField(help_text="Explanation for the correct answer in CBT")
+    explanation = RichTextField(help_text="Explanation for the correct answer in CBT")
 
     def __str__(self):
         return f'Explanation for {self.cbt_question.course.name} CBT Question'

@@ -69,8 +69,8 @@
 
                       <tr class="fw-normal">
                         <td class="align-middle">
-                            <a href="{% url 'topic_detail' topic.name %}" class="text-light d-block">
-                                <span>{{topic}}</span>
+                            <a href="{% url 'topic_detail' topic.id %}" class="text-light d-block">
+                                <span>{{topic|title}}</span>
                             </a>
                         </td>
                       </tr>

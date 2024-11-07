@@ -7,14 +7,14 @@ from ckeditor.fields import RichTextField
 
   
 class Department(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.SlugField(max_length=255)
     
 
     def __str__(self):
         return self.name
 
 class Course(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.SlugField(max_length=255)
     departments = models.ManyToManyField(Department, related_name='courses')  # Updated to ManyToManyField
 
     def __str__(self):
@@ -25,7 +25,7 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="uploaded_image", null=True, default='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKKOdmJz8Z2pDtYgFgR2u9spABvNNPKYYtGw&s', max_length=5000)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, related_name='students')  # Foreign key to Department
-    school = models.CharField(max_length=255, null=True)
+    school = models.SlugField(max_length=255, null=True)
     
 
     def __str__(self):
@@ -33,7 +33,7 @@ class Student(models.Model):
     
 
 class Topic(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.SlugField(max_length=255)
     content = RichTextField(blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='topics')
 
@@ -44,7 +44,7 @@ class Topic(models.Model):
 class PastQuestions(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='past_questions')
     content = RichTextField(blank=True)
-    year = models.CharField(max_length=4, help_text="Year of the examination")  # To track different years of questions
+    year = models.SlugField(max_length=4, help_text="Year of the examination")  # To track different years of questions
     uploaded_at = models.DateTimeField(auto_now_add=True)  # To keep track of when the question was added
 
     def __str__(self):
@@ -60,11 +60,11 @@ class KeyPoints(models.Model):
 class CBTQuestion(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='cbt_questions')
     question_text = RichTextField(help_text="Question for the CBT")
-    option_a = models.CharField(max_length=200)
-    option_b = models.CharField(max_length=200)
-    option_c = models.CharField(max_length=200)
-    option_d = models.CharField(max_length=200)
-    correct_option = models.CharField(max_length=1, choices=[('A', 'Option A'), ('B', 'Option B'), ('C', 'Option C'), ('D', 'Option D')])
+    option_a = models.SlugField(max_length=200)
+    option_b = models.SlugField(max_length=200)
+    option_c = models.SlugField(max_length=200)
+    option_d = models.SlugField(max_length=200)
+    correct_option = models.SlugField(max_length=1, choices=[('A', 'Option A'), ('B', 'Option B'), ('C', 'Option C'), ('D', 'Option D')])
 
     def __str__(self):
         return f'CBT Question for {self.course.name}'

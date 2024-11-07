@@ -201,7 +201,7 @@
       <!-- Navbar Start -->
   <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
     <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center px-4 px-sm-5">
-        <h5 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Tutorial Haven</h5>
+        <h5 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Course Titans</h5>
     </a>
     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
@@ -220,7 +220,7 @@
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">More</a>
               <div class="dropdown-menu fade-down m-0" >
                   {% if request.user.student %}
-                  <a href="{% url 'list_courses' request.user.student.department.name %}" class="nav-item nav-link">Courses</a>
+                  <a href="{% url 'list_courses' request.user.student.department.id %}" class="nav-item nav-link">Courses</a>
                   <a href="" class="nav-item nav-link">View Scores</a>
                   {% endif %}
                   <a href="" class="nav-item nav-link">Practice CBT</a>

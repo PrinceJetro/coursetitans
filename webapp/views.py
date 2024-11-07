@@ -100,24 +100,24 @@ def list_all_courses(request):
 
 
 @login_required
-def list_courses(request, department_name=None):
-    if department_name:
-        department = get_object_or_404(Department, name=department_name)
+def list_courses(request, department_id=None):
+    if department_id:
+        department = get_object_or_404(Department, id=department_id)
         print("here")
         courses = department.courses.all()  # Access courses through the related_name
     return render(request, 'list_courses.html', {'courses': courses, "department": department})
 
 
 @login_required
-def course_detail(request, course_name):
-    course = get_object_or_404(Course, name=course_name)
+def course_detail(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
     topics = course.topics.all()
     return render(request, 'course_detail.html', {'course': course, 'topics': topics})
 
 
 @login_required
-def topic_detail(request, topic_name):
-    topic = get_object_or_404(Topic, name=topic_name)
+def topic_detail(request, topic_id):
+    topic = get_object_or_404(Topic, id=topic_id)
     return render(request, 'topic_detail.html', {'topic': topic})
 
 

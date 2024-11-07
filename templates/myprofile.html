@@ -11,7 +11,7 @@
             
 
               <h5 class="my-3">{{request.user.username|title}}</h5>
-              <p class="text-muted mb-1">Student At {{request.user.student.institution.name|title}}</p> 
+              <p class="text-muted mb-1">Student At {{request.user.student.school.name|title}}</p> 
                </div>
           </div>
 
@@ -71,10 +71,10 @@
               <hr>
               <div class="row">
                 <div class="col-sm-3">
-                  <p class="mb-0">Phone</p>
+                  <p class="mb-0">School</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{request.user.student.phone}}</p>
+                  <p class="text-muted mb-0">{{request.user.student.school|title}}</p>
                 </div>
               </div>
               <hr>

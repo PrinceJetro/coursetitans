@@ -1,6 +1,8 @@
 # admin.py
 from django.contrib import admin
-from .models import Student, Course, Department, Topic
+from .models import Student, Course, Department, Topic, PastQuestions, KeyPoints, CBTQuestion, PracticeExplanations
+
+
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
@@ -28,3 +30,30 @@ class TopicAdmin(admin.ModelAdmin):
     list_display = ('name', 'course')
     search_fields = ('name', 'course__name')
     list_filter = ('course',)
+
+
+@admin.register(PastQuestions)
+class PastQuestionsAdmin(admin.ModelAdmin):
+    list_display = ('course', 'year', 'uploaded_at')
+    search_fields = ('course__name', 'year')
+    list_filter = ('course', 'year')
+    ordering = ('-uploaded_at',)
+
+@admin.register(KeyPoints)
+class KeyPointsAdmin(admin.ModelAdmin):
+    list_display = ('past_question', 'content')
+    search_fields = ('past_question__course__name', 'past_question__year')
+    list_filter = ('past_question__course',)
+
+@admin.register(CBTQuestion)
+class CBTQuestionAdmin(admin.ModelAdmin):
+    list_display = ('course', 'question_text', 'correct_option')
+    search_fields = ('course__name', 'question_text')
+    list_filter = ('course',)
+    ordering = ('course',)
+
+@admin.register(PracticeExplanations)
+class PracticeExplanationsAdmin(admin.ModelAdmin):
+    list_display = ('cbt_question', 'explanation')
+    search_fields = ('cbt_question__course__name', 'cbt_question__question_text')
+    list_filter = ('cbt_question__course',)

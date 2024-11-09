@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import  Student, Course, Department, Topic
+from .models import  Student, Course, Department, Topic,CBTQuestion, Institution
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -22,6 +22,7 @@ def home(request):
 
 def register_student(request):
     departments = Department.objects.all()
+    allinstitutions = Institution.objects.all()
     error_message = ""
 
     if request.method == 'POST':
@@ -74,7 +75,9 @@ def register_student(request):
         else:
             error_message = "All fields are required."
 
-    return render(request, 'register_student.html', {'error_message': error_message, 'alldepartments': departments})
+    return render(request, 'register_student.html', {'error_message': error_message, 'alldepartments': departments, 'allinstitutions':allinstitutions})
+
+
 
 def loginview(request):
     if request.method == 'POST':
@@ -128,3 +131,46 @@ def myprofile(request):
     courses = Course.objects.all()
     return render(request, 'myprofile.html',{'user': user,'courses': courses} )
 
+
+@login_required
+def cbt_view(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    questions = CBTQuestion.objects.filter(course=course)
+
+    if request.method == 'POST':
+        # Handle answer submission and scoring
+        score = 0
+        total_questions = questions.count()
+        for question in questions:
+            selected_option = request.POST.get(f'question_{question.id}')
+            if selected_option == question.correct_option:
+                score += 1
+
+        # Calculate percentage score for this attempt
+        percentage_score = (score / total_questions) * 100
+
+        # Update the course's percentage field
+        # If this is the first attempt, set the percentage directly
+        if course.percentage is None:
+            course.percentage = percentage_score
+        else:
+            # Calculate new average if there is already a stored percentage
+            course.percentage = (course.percentage + percentage_score) / 2
+
+        course.save()
+
+        # Prepare context for the result page
+        context = {
+            'course': course,
+            'score': score,
+            'percentage_score': percentage_score,
+            'total_questions': total_questions,
+        }
+        return render(request, 'cbt_result.html', context)
+
+    # For GET request: render the questions template
+    context = {
+        'course': course,
+        'questions': questions,
+    }
+    return render(request, 'cbt.html', context)

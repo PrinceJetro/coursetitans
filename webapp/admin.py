@@ -1,6 +1,6 @@
 # admin.py
 from django.contrib import admin
-from .models import Student, Course, Department, Topic, PastQuestions, KeyPoints, CBTQuestion, PracticeExplanations
+from .models import Student, Course, Department, Topic, PastQuestions, KeyPoints, CBTQuestion, PracticeExplanations, Institution
 
 
 
@@ -11,6 +11,11 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+@admin.register(Institution)
+class InstitutionAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
 

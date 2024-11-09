@@ -42,9 +42,13 @@
                   </div>
                         
                   <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="text" id="institution" name="institution" class="form-control form-control-lg" />
+                    <select name="institution" id="institution" class="form-control form-control-lg" required>
+                        {% for institution in allinstitutions %}      
+                            <option value="{{ institution }}">{{ institution }}</option>
+                        {% endfor %}
+                    </select>
                     <label class="form-label" for="institution">Institution</label>
-                  </div>
+                </div>
                   
                   <div data-mdb-input-init class="form-outline mb-4">
                     <select name="department" id="department" class="form-control form-control-lg" required>

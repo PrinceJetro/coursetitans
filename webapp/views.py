@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import  Student, Course, Department, Topic,CBTQuestion, Institution
+from .models import  Student, Course, Department, Topic,CBTQuestion, Institution, PastQuestions
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -71,7 +71,7 @@ def register_student(request):
             student.save()
             login(request, user)
 
-            return redirect('home')
+            return redirect('myprofile')
         else:
             error_message = "All fields are required."
 
@@ -106,7 +106,6 @@ def list_all_courses(request):
 def list_courses(request, department_id=None):
     if department_id:
         department = get_object_or_404(Department, id=department_id)
-        print("here")
         courses = department.courses.all()  # Access courses through the related_name
     return render(request, 'list_courses.html', {'courses': courses, "department": department})
 
@@ -155,7 +154,7 @@ def cbt_view(request, course_id):
             course.percentage = percentage_score
         else:
             # Calculate new average if there is already a stored percentage
-            course.percentage = (course.percentage + percentage_score) / 2
+            course.percentage = (float(course.percentage) + percentage_score) / 2
 
         course.save()
 
@@ -174,3 +173,12 @@ def cbt_view(request, course_id):
         'questions': questions,
     }
     return render(request, 'cbt.html', context)
+
+
+def all_past_questions(request):
+    pastquestions = PastQuestions.objects.all()
+    return render(request, 'cool/allpqs.html', {"pastquestions": pastquestions})
+
+def past_questions(request, pastpq_id):
+    pastpq = get_object_or_404(PastQuestions, id=pastpq_id)
+    return render(request, 'pastquestions.html', {"pastpq": pastpq})

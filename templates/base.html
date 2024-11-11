@@ -63,7 +63,7 @@
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">More</a>
                 <div class="dropdown-menu fade-down m-0" >
                     <a href="{% url 'list_courses' request.user.student.department.id  %}" class="nav-item nav-link">Courses</a>
-                    <a href="" class="nav-item nav-link">View Scores</a>
+                    <a href="{% url 'allpastquestions' %}" class="nav-item nav-link">Past Questions</a>
                     <a href="" class="nav-item nav-link">Practice CBT</a>
 
                 </div>

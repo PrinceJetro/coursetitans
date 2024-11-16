@@ -17,4 +17,5 @@ urlpatterns = [
     path('cbt/<int:course_id>/', views.cbt_view, name='cbt'),
     path('allpastquestions', views.all_past_questions, name='allpastquestions'),
     path('pastquestions/<int:pastpq_id>/', views.past_questions, name='pastquestions'),
+    path('pastquestions/<int:pastpq_id>/keypoints', views.key_points, name='keypoints'),
 ]

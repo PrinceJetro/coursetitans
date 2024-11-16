@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import  Student, Course, Department, Topic,CBTQuestion, Institution, PastQuestions
+from .models import  Student, Course, Department, Topic,CBTQuestion, Institution, PastQuestions, KeyPoints
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -182,3 +182,12 @@ def all_past_questions(request):
 def past_questions(request, pastpq_id):
     pastpq = get_object_or_404(PastQuestions, id=pastpq_id)
     return render(request, 'pastquestions.html', {"pastpq": pastpq})
+
+
+@login_required
+def key_points(request, pastpq_id):
+    pastpq = get_object_or_404(PastQuestions, id=pastpq_id)
+    keypoint = KeyPoints.objects.filter(past_question=pastpq).first()  # Use .first() to fetch the single object
+
+    return render(request, 'cool/keypoints.html', {'keypoint': keypoint})
+

@@ -26,16 +26,15 @@ def register_student(request):
     error_message = ""
 
     if request.method == 'POST':
-        first_name = request.POST.get('first_name').lower()
-        last_name = request.POST.get('last_name').lower()
-        department_name = request.POST.get('department')
-        email = request.POST.get('email').lower()
-        username = request.POST.get('username').lower()
-        password = request.POST.get('password')
-        school = request.POST.get('institution').lower()  # Assuming this is passed as an ID or string
+        first_name = request.POST.get('first_name', '').strip().lower()
+        last_name = request.POST.get('last_name', '').strip().lower()
+        department_name = request.POST.get('department', '').strip()
+        email = request.POST.get('email', '').strip().lower()
+        username = request.POST.get('username', '').strip().lower()
+        password = request.POST.get('password', '').strip()
+        school_id = request.POST.get('institution', '').strip().lower()  # School name or ID
         profile_pic = request.FILES.get('profilepic')  # Retrieve the uploaded image
         print("profile_pic.name")
-
 
         # Initialize storage
         storage = SupabaseStorage()
@@ -53,31 +52,52 @@ def register_student(request):
                 print(f"Error uploading image: {e}")
 
         # Basic validation
-        if username and password and school and first_name and last_name and department_name and email:
-            # Fetch the Department instance
-            department = get_object_or_404(Department, name=department_name)
+        if username and password and school_id and first_name and last_name and department_name and email:
+            try:
+                # Fetch the Department instance
+                department = get_object_or_404(Department, name=department_name)
 
-            # Create the user and student records
-            user = User(username=username, password=make_password(password), first_name=first_name, last_name=last_name, email=email)
-            user.save()
+                # Fetch the Institution instance
+                institution = get_object_or_404(Institution, id=school_id)
 
-            # Create Student instance, including the profile picture if uploaded
-            student = Student(
-                user=user,
-                department=department,
-                school=school,
-                image=image_url  # Store the image URL instead of the file
-            )
-            student.save()
-            login(request, user)
+                # Create the user
+                user = User(
+                    username=username,
+                    password=make_password(password),
+                    first_name=first_name,
+                    last_name=last_name,
+                    email=email,
+                )
+                user.save()
 
-            return redirect('myprofile')
+                # Create the Student record
+                student = Student(
+                    user=user,
+                    department=department,
+                    school=institution,  # Use the Institution instance
+                    image=image_url,  # Store the image URL instead of the file
+                )
+                student.save()
+
+                # Log the user in and redirect to their profile
+                login(request, user)
+                return redirect('myprofile')
+
+            except Exception as e:
+                error_message = f"An error occurred: {e}"
+                print(f"Error: {e}")
         else:
             error_message = "All fields are required."
 
-    return render(request, 'register_student.html', {'error_message': error_message, 'alldepartments': departments, 'allinstitutions':allinstitutions})
-
-
+    return render(
+        request,
+        'register_student.html',
+        {
+            'error_message': error_message,
+            'alldepartments': departments,
+            'allinstitutions': allinstitutions,
+        }
+    )
 
 def loginview(request):
     if request.method == 'POST':
